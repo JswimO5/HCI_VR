@@ -14,7 +14,7 @@ public class GazeTrigger : MonoBehaviour
 
     void Start()
     {
-        playerMove = Camera.main.GetComponent<VerticalMovement>();
+        playerMove = Camera.main.transform.parent.GetComponent<VerticalMovement>();
         if (progressBar != null)
             progressBar.fillAmount = 0f; // empty at start
     }
