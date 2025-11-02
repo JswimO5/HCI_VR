@@ -7,9 +7,9 @@ public class ModelSpawner : MonoBehaviour
     public GameObject[] fishPrefabs; // Assign these in Inspector
 
     [Header("Spawn Settings")]
-    public Vector3 spawnArea = new Vector3(10f, 0f, 10f); // area range
-    public Vector3 coralProximity = new Vector3(1f, 0.5f, 1f); // area range
-    public int numberToSpawn = 15; // how many to spawn total
+    public Vector3 spawnArea = new Vector3(100f, 0f, 100f); // area range
+    public Vector3 coralProximity = new Vector3(10f, 5f, 10f); // area range
+    public int numberToSpawn = 50; // how many to spawn total
 
     void Start()
     {
@@ -48,7 +48,11 @@ public class ModelSpawner : MonoBehaviour
             // spawn it
             Quaternion randomRot = Quaternion.Euler(0, Random.Range(0f, 360f), 0);
             Instantiate(prefab, randomPos, randomRot);
-            Instantiate(fish, fishPos, randomRot);
+            int fish_true = Random.Range(0, 10);
+            if(fish_true > 5)
+            {
+                Instantiate(fish, fishPos, randomRot);
+            }
         }
     }
 }

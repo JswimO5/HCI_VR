@@ -563,9 +563,9 @@ MonoBehaviour:
   fishPrefabs:
   - {fileID: 919132149155446097, guid: 3e8de244e75d4124cbe50e037ade23eb, type: 3}
   - {fileID: 919132149155446097, guid: 65ddc6ed513dd1c4c84d531e5bc1cd41, type: 3}
-  spawnArea: {x: 10, y: 0, z: 10}
-  coralProximity: {x: 1, y: 0.5, z: 1}
-  numberToSpawn: 15
+  spawnArea: {x: 100, y: 0, z: 100}
+  coralProximity: {x: 10, y: 5, z: 10}
+  numberToSpawn: 50
 --- !u!4 &625393691
 Transform:
   m_ObjectHideFlags: 0
