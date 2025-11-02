@@ -3,11 +3,13 @@ using UnityEngine;
 public class ModelSpawner : MonoBehaviour
 {
     [Header("Prefabs to Spawn")]
-    public GameObject[] modelPrefabs; // Assign these in Inspector
+    public GameObject[] coralPrefabs; // Assign these in Inspector
+    public GameObject[] fishPrefabs; // Assign these in Inspector
 
     [Header("Spawn Settings")]
     public Vector3 spawnArea = new Vector3(10f, 0f, 10f); // area range
-    public int numberToSpawn = 5; // how many to spawn total
+    public Vector3 coralProximity = new Vector3(1f, 0.5f, 1f); // area range
+    public int numberToSpawn = 15; // how many to spawn total
 
     void Start()
     {
@@ -16,7 +18,7 @@ public class ModelSpawner : MonoBehaviour
 
     void SpawnModels()
     {
-        if (modelPrefabs.Length == 0)
+        if (coralPrefabs.Length == 0)
         {
             Debug.LogWarning("No model prefabs assigned to ModelSpawner.");
             return;
@@ -25,7 +27,8 @@ public class ModelSpawner : MonoBehaviour
         for (int i = 0; i < numberToSpawn; i++)
         {
             // pick a random model
-            GameObject prefab = modelPrefabs[Random.Range(0, modelPrefabs.Length)];
+            GameObject prefab = coralPrefabs[Random.Range(0, coralPrefabs.Length)];
+            GameObject fish = fishPrefabs[Random.Range(0, fishPrefabs.Length)];
 
             // pick a random position within spawn area
             Vector3 randomPos = new Vector3(
@@ -34,9 +37,18 @@ public class ModelSpawner : MonoBehaviour
                 Random.Range(-spawnArea.z / 2, spawnArea.z / 2)
             );
 
+            Vector3 randomOff = new Vector3(
+                Random.Range(-coralProximity.x / 2, coralProximity.x / 2),
+                coralProximity.y,
+                Random.Range(-coralProximity.z / 2, coralProximity.z / 2)
+            );
+
+            Vector3 fishPos = randomPos + randomOff;
+
             // spawn it
             Quaternion randomRot = Quaternion.Euler(0, Random.Range(0f, 360f), 0);
             Instantiate(prefab, randomPos, randomRot);
+            Instantiate(fish, fishPos, randomRot);
         }
     }
 }
