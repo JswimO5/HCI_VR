@@ -560,12 +560,18 @@ MonoBehaviour:
   - {fileID: 919132149155446097, guid: c2bbe9bd96b72ea4f8c5919eb1b27e57, type: 3}
   - {fileID: 919132149155446097, guid: e67e307fc876cdc449d816c9b82dcb79, type: 3}
   - {fileID: 919132149155446097, guid: ff4833df76b6d8547b466046654f7ee8, type: 3}
+  - {fileID: 919132149155446097, guid: c2bbe9bd96b72ea4f8c5919eb1b27e57, type: 3}
+  - {fileID: 919132149155446097, guid: dae40e3246d72f547a2d089e023c7c69, type: 3}
+  - {fileID: 919132149155446097, guid: ff4833df76b6d8547b466046654f7ee8, type: 3}
+  - {fileID: 919132149155446097, guid: c2bbe9bd96b72ea4f8c5919eb1b27e57, type: 3}
+  - {fileID: 919132149155446097, guid: c2bbe9bd96b72ea4f8c5919eb1b27e57, type: 3}
   fishPrefabs:
-  - {fileID: 919132149155446097, guid: 3e8de244e75d4124cbe50e037ade23eb, type: 3}
-  - {fileID: 919132149155446097, guid: 65ddc6ed513dd1c4c84d531e5bc1cd41, type: 3}
-  spawnArea: {x: 100, y: 0, z: 100}
+  - {fileID: 8989628782979292145, guid: 6caebe9f9d4354641b083136e5ecb041, type: 3}
+  - {fileID: 5351998550208818991, guid: 7d547dec0fe0a9a41af15c973b955b14, type: 3}
+  - {fileID: 8989628782979292145, guid: 6caebe9f9d4354641b083136e5ecb041, type: 3}
+  spawnArea: {x: 200, y: 0, z: 200}
   coralProximity: {x: 10, y: 5, z: 10}
-  numberToSpawn: 50
+  numberToSpawn: 600
 --- !u!4 &625393691
 Transform:
   m_ObjectHideFlags: 0
