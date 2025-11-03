@@ -3,26 +3,26 @@ using UnityEngine;
 public class GazeRaycast : MonoBehaviour
 {
     public float rayDistance = 15f;
-    public bool logEveryFrame = false;
-    public float logInterval = 0.25f;
-    private float logTimer = 0f;
 
-    private GazeTrigger currentTarget;
+    [Header("Reticle Settings")]
+    public GameObject reticlePrefab; // assign a small dot prefab
+    private GameObject reticleInstance;
+
+    [HideInInspector]
+    public GazeTrigger currentTarget;
+
+    void Start()
+    {
+        if (reticlePrefab != null)
+            reticleInstance = Instantiate(reticlePrefab);
+    }
 
     void Update()
     {
-        Debug.DrawRay(transform.position, transform.forward * rayDistance, Color.green);
-
         Ray ray = new Ray(transform.position, transform.forward);
 
         if (Physics.Raycast(ray, out RaycastHit hit, rayDistance))
         {
-            if (logEveryFrame || (logTimer <= 0f))
-            {
-                Debug.Log($"[GazeRaycast] Raycast HIT: {hit.collider.name} (distance {hit.distance:F2})");
-                logTimer = logInterval;
-            }
-
             GazeTrigger target = hit.collider.GetComponent<GazeTrigger>();
             if (target != currentTarget)
             {
@@ -30,22 +30,25 @@ public class GazeRaycast : MonoBehaviour
                 currentTarget = target;
                 currentTarget?.OnPointerEnter();
             }
+
+            // Reticle visible wherever the ray hits
+            if (reticleInstance != null)
+            {
+                reticleInstance.SetActive(true);
+                reticleInstance.transform.position = hit.point;
+                reticleInstance.transform.rotation = Quaternion.LookRotation(hit.normal);
+            }
         }
         else
         {
-            if (logEveryFrame || (logTimer <= 0f))
-            {
-                Debug.Log("[GazeRaycast] Raycast HIT: nothing");
-                logTimer = logInterval;
-            }
-
             if (currentTarget != null)
             {
                 currentTarget.OnPointerExit();
                 currentTarget = null;
             }
-        }
 
-        if (logTimer > 0f) logTimer -= Time.deltaTime;
+            if (reticleInstance != null)
+                reticleInstance.SetActive(false);
+        }
     }
 }

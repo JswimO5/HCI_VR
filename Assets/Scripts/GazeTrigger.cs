@@ -1,37 +1,37 @@
 using UnityEngine;
-using UnityEngine.UI;  // needed for Image
 
 public class GazeTrigger : MonoBehaviour
 {
     public enum Direction { Up, Down }
     public Direction direction;
-    public float gazeTime = 2f;
+    public float gazeTime = 1.0f;
 
-    private float timer = 0f;
-    private bool isGazedAt = false;
     private VerticalMovement playerMove;
-    public Image progressBar;  // assign the white bar Image here
+    private bool isGazedAt = false;
+    private float timer = 0f;
 
     void Start()
     {
         playerMove = Camera.main.transform.parent.GetComponent<VerticalMovement>();
-        if (progressBar != null)
-            progressBar.fillAmount = 0f; // empty at start
+        if (playerMove == null)
+            Debug.LogError("VerticalMovement not found on camera's parent!");
     }
 
     void Update()
     {
-        if (playerMove == null) return;
-
-        if (isGazedAt)
+        if (!isGazedAt || playerMove == null)
         {
-            timer += Time.deltaTime;
+            timer = 0f;
+            return;
+        }
 
-            // Update progress bar
-            if (progressBar != null)
-                progressBar.fillAmount = Mathf.Clamp01(timer / gazeTime);
+        timer += Time.deltaTime;
 
-            if (timer >= gazeTime)
+        if (timer >= gazeTime)
+        {
+            // Only trigger movement if this arrow is the currentTarget in GazeRaycast
+            GazeRaycast gazeRay = Camera.main.GetComponent<GazeRaycast>();
+            if (gazeRay != null && gazeRay.currentTarget == this)
             {
                 if (direction == Direction.Up)
                     playerMove.MoveUp(true);
@@ -39,22 +39,22 @@ public class GazeTrigger : MonoBehaviour
                     playerMove.MoveDown(true);
             }
         }
-        else
-        {
-            timer = 0f;
-            if (progressBar != null)
-                progressBar.fillAmount = 0f;
-
-            playerMove.MoveUp(false);
-            playerMove.MoveDown(false);
-        }
     }
 
-    // Called by raycast
     public void OnPointerEnter() => isGazedAt = true;
-    public void OnPointerExit() => isGazedAt = false;
+    public void OnPointerExit()
+    {
+        isGazedAt = false;
 
-    // Mouse hover support
-    private void OnMouseEnter() => isGazedAt = true;
-    private void OnMouseExit() => isGazedAt = false;
+        // Stop movement immediately if the gaze leaves
+        if (playerMove != null)
+        {
+            if (direction == Direction.Up)
+                playerMove.MoveUp(false);
+            else
+                playerMove.MoveDown(false);
+        }
+
+        timer = 0f;
+    }
 }
